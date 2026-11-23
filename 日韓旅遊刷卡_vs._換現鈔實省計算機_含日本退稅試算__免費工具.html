@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>日韓旅遊刷卡 vs. 換現鈔實省計算機（含日本退稅試算）｜免費工具</title>
+  <meta name="description" content="出國去日本、韓國刷卡還是付現比較划算？即時試算海外 1.5% 手續費、信用卡回饋與現金換匯價差，內建日本免稅 10% 退稅與百貨手續費計算機。" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230284c7'/%3E%3Cpath d='M18 35l28-13-7 25-7-8-14-4z' fill='none' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <meta property="og:title" content="日韓旅遊刷卡 vs. 換現鈔實省計算機（含日本退稅試算）" />
+  <meta property="og:description" content="輸入消費金額、信用卡回饋與手上換匯匯率，1 秒算出刷卡還是付現比較省，附日本退稅門檻與百貨手續費試算。" />
+  <meta property="og:type" content="website" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-sky-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 truncate">日韓旅遊刷卡 vs. 換現鈔計算機</h1>
+          <p class="text-xs text-slate-500 hidden sm:block">海外手續費、信用卡回饋對決與日本免稅退稅一秒算</p>
+        </div>
+      </div>
+      <button id="btn-copy-summary" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shrink-0">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+        </svg>
+        <span>複製結果</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+
+    <!-- Mode Tabs -->
+    <div class="bg-slate-200/70 p-1 rounded-xl grid grid-cols-2 gap-1" role="tablist" aria-label="功能分頁切換">
+      <button id="tab-btn-pay" type="button" role="tab" aria-selected="true" aria-controls="panel-pay"
+        class="py-2.5 px-3 rounded-lg text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm">
+        刷卡 vs. 換現鈔比較
+      </button>
+      <button id="tab-btn-tax" type="button" role="tab" aria-selected="false" aria-controls="panel-tax"
+        class="py-2.5 px-3 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+        日本免稅退稅試算
+      </button>
+    </div>
+
+    <!-- PANEL 1: Card vs Cash -->
+    <section id="panel-pay" role="tabpanel" aria-labelledby="tab-btn-pay" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Inputs -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-5">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">選擇旅遊幣別</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button type="button" data-currency="JPY" class="curr-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-sky-600 text-white border-sky-600">
+                日圓 JPY<span class="block text-[10px] font-normal opacity-85">日本旅遊</span>
+              </button>
+              <button type="button" data-currency="KRW" class="curr-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50">
+                韓元 KRW<span class="block text-[10px] font-normal opacity-75">韓國旅遊</span>
+              </button>
+              <button type="button" data-currency="USD" class="curr-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50">
+                美元 USD<span class="block text-[10px] font-normal opacity-75">歐美網購</span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="pay-amount" class="text-sm font-medium text-slate-700">預計消費金額 (<span id="lbl-curr-code">JPY</span>)</label>
+            </div>
+            <input id="pay-amount" type="number" step="any" min="1" value="10000"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-base font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600" />
+            <div id="amount-presets" class="grid grid-cols-4 gap-1.5 mt-2"></div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+            <div>
+              <label for="pay-card-rate" class="block text-xs font-medium text-slate-600 mb-1">刷卡參考匯率 (台幣)</label>
+              <input id="pay-card-rate" type="number" step="0.0001" min="0.0001" value="0.215"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+            </div>
+            <div>
+              <label for="pay-cash-rate" class="block text-xs font-medium text-slate-600 mb-1">換現鈔匯率 (台幣)</label>
+              <input id="pay-cash-rate" type="number" step="0.0001" min="0.0001" value="0.218"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-400 -mt-3">預設為參考匯率，可直接改成你實際換匯或當日銀行牌告匯率。</p>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="pay-reward" class="text-sm font-medium text-slate-700">信用卡海外回饋 (%)</label>
+              <span class="text-xs text-slate-400">含加碼總回饋</span>
+            </div>
+            <div class="flex gap-2">
+              <input id="pay-reward" type="number" step="0.1" min="0" max="20" value="3.0"
+                class="w-20 px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+              <div class="flex-1 grid grid-cols-4 gap-1">
+                <button type="button" data-reward="1.5" class="reward-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">1.5%</button>
+                <button type="button" data-reward="3" class="reward-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">3%</button>
+                <button type="button" data-reward="3.5" class="reward-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">3.5%</button>
+                <button type="button" data-reward="5" class="reward-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">5%</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="pay-fx-fee" class="block text-xs font-medium text-slate-600 mb-1">海外刷卡手續費 (%)（台灣多數銀行為 1.5%）</label>
+            <input id="pay-fx-fee" type="number" step="0.1" min="0" max="10" value="1.5"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+          </div>
+        </div>
+
+        <!-- Right Results -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- Verdict Card -->
+          <div id="verdict-card" class="bg-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-medium text-slate-400">實算結帳建議</p>
+                <h2 id="out-verdict-title" class="text-2xl sm:text-3xl font-bold tracking-tight mt-1">--</h2>
+                <p id="out-verdict-sub" class="text-xs sm:text-sm text-slate-300 mt-1.5 tabular-nums">--</p>
+              </div>
+              <div class="bg-white/10 rounded-xl px-4 py-3 text-right border border-white/15">
+                <p class="text-[11px] text-slate-300">刷卡淨回饋率</p>
+                <p id="out-net-reward-pct" class="text-xl font-bold tabular-nums text-sky-300 mt-0.5">--%</p>
+              </div>
+            </div>
+
+            <!-- Side-by-side comparison -->
+            <div class="grid grid-cols-2 gap-3 pt-2 border-t border-white/10">
+              <div class="bg-slate-800/80 rounded-xl p-3.5 border border-slate-700/70">
+                <p class="text-xs text-slate-400">刷卡實付（扣回饋後）</p>
+                <p id="out-card-final" class="text-xl font-bold tabular-nums text-white mt-1">--</p>
+                <p id="out-card-detail" class="text-[11px] text-slate-400 tabular-nums mt-1">--</p>
+              </div>
+              <div class="bg-slate-800/80 rounded-xl p-3.5 border border-slate-700/70">
+                <p class="text-xs text-slate-400">付現鈔實付成本</p>
+                <p id="out-cash-final" class="text-xl font-bold tabular-nums text-white mt-1">--</p>
+                <p id="out-cash-detail" class="text-[11px] text-slate-400 tabular-nums mt-1">--</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Breakdown Metrics -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">刷卡原始台幣</p>
+              <p id="out-card-base" class="text-base font-bold text-slate-900 tabular-nums mt-1">--</p>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">海外手續費</p>
+              <p id="out-card-fee" class="text-base font-bold text-rose-600 tabular-nums mt-1">--</p>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">預估刷卡回饋</p>
+              <p id="out-card-reward" class="text-base font-bold text-emerald-600 tabular-nums mt-1">--</p>
+            </div>
+          </div>
+
+          <!-- DCC Trap Warning Box -->
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">!</div>
+            <div class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+              <p class="font-bold">結帳避雷提醒：刷卡機問「台幣還是當地幣」一律選當地幣！</p>
+              <p id="out-dcc-note" class="mt-1 text-amber-800 tabular-nums">若誤選台幣結帳（DCC 動態貨幣轉換，常見匯差加價約 4%），這筆消費大約會多白白損失 -- 元。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 2: Japan Tax-Free Calculator -->
+    <section id="panel-tax" role="tabpanel" aria-labelledby="tab-btn-tax" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Inputs -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-5">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">輸入金額類型</label>
+            <div class="grid grid-cols-2 gap-1.5">
+              <button type="button" data-price-mode="incl" class="tax-mode-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-sky-600 text-white border-sky-600">
+                含稅價（税込）
+              </button>
+              <button type="button" data-price-mode="excl" class="tax-mode-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50">
+                未稅價（税抜）
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label for="tax-amount" class="block text-sm font-medium text-slate-700 mb-1.5">結帳總金額 (日圓 JPY)</label>
+            <input id="tax-amount" type="number" step="any" min="1" value="11000"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-base font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+            <div class="grid grid-cols-4 gap-1.5 mt-2">
+              <button type="button" data-tax-amt="5500" class="tax-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">5,500</button>
+              <button type="button" data-tax-amt="11000" class="tax-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">11,000</button>
+              <button type="button" data-tax-amt="33000" class="tax-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">33,000</button>
+              <button type="button" data-tax-amt="55000" class="tax-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">55,000</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">日本消費稅率</label>
+            <div class="grid grid-cols-2 gap-1.5">
+              <button type="button" data-tax-rate="10" class="tax-rate-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-slate-900 text-white border-slate-900">
+                10% 一般商品<span class="block text-[10px] font-normal opacity-80">藥妝／電器／服飾</span>
+              </button>
+              <button type="button" data-tax-rate="8" class="tax-rate-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50">
+                8% 減輕稅率<span class="block text-[10px] font-normal opacity-75">伴手禮／零食食品</span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="tax-fee-pct" class="text-sm font-medium text-slate-700">退稅手續費 (%)</label>
+              <span class="text-xs text-slate-400">百貨公司常收 1.55%</span>
+            </div>
+            <div class="flex gap-2">
+              <input id="tax-fee-pct" type="number" step="0.05" min="0" max="10" value="0"
+                class="w-20 px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+              <div class="flex-1 grid grid-cols-2 gap-1.5">
+                <button type="button" data-tax-fee="0" class="tax-fee-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">0% 藥妝店免費</button>
+                <button type="button" data-tax-fee="1.55" class="tax-fee-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">1.55% 百貨公司</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="tax-jpy-rate" class="block text-xs font-medium text-slate-600 mb-1">日圓換算台幣參考匯率</label>
+            <input id="tax-jpy-rate" type="number" step="0.001" min="0.01" value="0.215"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+          </div>
+        </div>
+
+        <!-- Right Tax-Free Results -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="bg-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-medium text-slate-400">免稅退稅後實際支付</p>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span id="out-tax-final-jpy" class="text-3xl sm:text-4xl font-bold tracking-tight tabular-nums">--</span>
+                  <span class="text-sm text-slate-300">日圓</span>
+                </div>
+                <p id="out-tax-final-twd" class="text-sm text-sky-300 font-semibold mt-1 tabular-nums">約折合台幣 NT$ --</p>
+              </div>
+              <div class="bg-emerald-500/15 border border-emerald-400/30 rounded-xl px-4 py-3 text-right">
+                <p class="text-[11px] text-emerald-200">實際省下退稅金額</p>
+                <p id="out-tax-saved-jpy" class="text-xl font-bold tabular-nums text-emerald-300 mt-0.5">-- 円</p>
+                <p id="out-tax-saved-twd" class="text-[11px] text-emerald-200/80 tabular-nums mt-0.5">約省 NT$ --</p>
+              </div>
+            </div>
+
+            <div id="tax-threshold-banner" class="rounded-xl px-4 py-3 text-xs sm:text-sm font-medium bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 tabular-nums">
+              已達日本免稅門檻（未稅滿 5,000 日圓）！
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">未稅商品原價</p>
+              <p id="out-tax-excl" class="text-base font-bold text-slate-900 tabular-nums mt-1">--</p>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">原消費稅額</p>
+              <p id="out-tax-orig" class="text-base font-bold text-slate-900 tabular-nums mt-1">--</p>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">退稅手續費</p>
+              <p id="out-tax-fee-jpy" class="text-base font-bold text-rose-600 tabular-nums mt-1">--</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO-Friendly FAQ -->
+    <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
+      <h2 class="text-base font-bold text-slate-900">日韓旅遊刷卡與退稅常見問題</h2>
+      <div class="divide-y divide-slate-100 text-sm">
+        <details class="py-3 group" open>
+          <summary class="font-semibold text-slate-800 cursor-pointer list-none flex items-center justify-between">
+            <span>海外刷卡 1.5% 手續費，信用卡回饋要幾 % 才划算？</span>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
+          </summary>
+          <p class="text-slate-600 mt-2 leading-relaxed">
+            只要信用卡的海外回饋大於 <strong>1.5%</strong>（例如 2.5%～3.5%），扣掉海外交易手續費後仍然是淨賺；再加上刷卡通常走國際組織匯率（接近銀行即期賣出價），比臨櫃換現鈔的現金賣出價更便宜，因此多數情況下<strong>選一張海外回饋 3% 以上的信用卡刷當地幣，會比換現鈔划算</strong>。
+          </p>
+        </details>
+        <details class="py-3 group">
+          <summary class="font-semibold text-slate-800 cursor-pointer list-none flex items-center justify-between">
+            <span>日本免稅門檻 5,000 日圓是看含稅還是未稅？</span>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
+          </summary>
+          <p class="text-slate-600 mt-2 leading-relaxed">
+            日本免稅規定為同一天、同一間商店消費滿 <strong>未稅 5,000 日圓以上</strong>（10% 稅率商品對應含稅 5,500 日圓；8% 食品對應含稅 5,400 日圓）。藥妝店多數免收退稅手續費，但大型百貨公司通常會收取約 <strong>1.55%</strong> 的退稅服務費。
+          </p>
+        </details>
+        <details class="py-3 group">
+          <summary class="font-semibold text-slate-800 cursor-pointer list-none flex items-center justify-between">
+            <span>為什麼在國外刷卡千萬不要選「台幣結帳」？</span>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
+          </summary>
+          <p class="text-slate-600 mt-2 leading-relaxed">
+            海外刷卡機若跳出「以台幣（TWD）結帳」選項，這是商家提供的 DCC（動態貨幣轉換），通常會加上 <strong>3%～5%</strong> 不等的匯率溢價，而且台灣銀行仍可能照收 1.5% 國外交易手續費。結帳時務必堅持選擇<strong>當地貨幣（日圓 JPY／韓元 KRW）</strong>。
+          </p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white mt-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-slate-400">
+      <p>免責聲明：本試算工具僅供出國消費與退稅估算參考，實際請款匯率、信用卡回饋上限與各店退稅規定請依發卡銀行與店家公告為準。</p>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" role="status" aria-live="polite"
+    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-medium shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 max-w-[90vw] text-center">
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const CURRENCIES = {
+        JPY: { name: '日圓', symbol: '¥', cardRate: 0.215, cashRate: 0.218, defaultAmt: 10000, presets: [5000, 10000, 30000, 50000] },
+        KRW: { name: '韓元', symbol: '₩', cardRate: 0.0235, cashRate: 0.0242, defaultAmt: 100000, presets: [50000, 100000, 300000, 500000] },
+        USD: { name: '美元', symbol: '$', cardRate: 32.5, cashRate: 32.8, defaultAmt: 100, presets: [50, 100, 300, 500] },
+      };
+
+      const state = {
+        activeTab: 'pay',
+        currency: 'JPY',
+        taxPriceMode: 'incl', // 'incl' | 'excl'
+        taxRate: 10,          // 10 | 8
+      };
+
+      const $ = (id) => document.getElementById(id);
+
+      function fmtInt(n) {
+        if (!Number.isFinite(n)) return '--';
+        return Math.round(n).toLocaleString('zh-TW');
+      }
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = $('toast');
+        el.textContent = msg;
+        el.classList.remove('opacity-0');
+        el.classList.add('opacity-100');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          el.classList.remove('opacity-100');
+          el.classList.add('opacity-0');
+        }, 2400);
+      }
+
+      function renderAmountPresets() {
+        const cfg = CURRENCIES[state.currency];
+        const wrap = $('amount-presets');
+        wrap.innerHTML = cfg.presets.map((val) => (
+          `<button type="button" data-amt="${val}" class="amt-preset-btn py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">${val.toLocaleString('zh-TW')}</button>`
+        )).join('');
+        wrap.querySelectorAll('.amt-preset-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            $('pay-amount').value = btn.dataset.amt;
+            renderPay();
+          });
+        });
+      }
+
+      function renderPay() {
+        const amt = parseFloat($('pay-amount').value);
+        const cardRate = parseFloat($('pay-card-rate').value);
+        const cashRate = parseFloat($('pay-cash-rate').value);
+        const rewardPct = parseFloat($('pay-reward').value);
+        const fxFeePct = parseFloat($('pay-fx-fee').value);
+
+        if (!Number.isFinite(amt) || amt <= 0 || !Number.isFinite(cardRate) || cardRate <= 0 || !Number.isFinite(cashRate) || cashRate <= 0) {
+          $('out-verdict-title').textContent = '請輸入有效金額與匯率';
+          $('out-verdict-sub').textContent = '--';
+          return;
+        }
+
+        const safeReward = Number.isFinite(rewardPct) && rewardPct >= 0 ? rewardPct : 0;
+        const safeFee = Number.isFinite(fxFeePct) && fxFeePct >= 0 ? fxFeePct : 0;
+
+        const cardBase = amt * cardRate;
+        const cardFee = cardBase * (safeFee / 100);
+        const cardReward = cardBase * (safeReward / 100);
+        const cardFinal = cardBase + cardFee - cardReward;
+        const cashFinal = amt * cashRate;
+
+        const diff = cashFinal - cardFinal; // positive means card is cheaper
+        const netRewardPct = safeReward - safeFee;
+        const dccLoss = cardBase * 0.04;
+
+        $('out-net-reward-pct').textContent = `${netRewardPct >= 0 ? '+' : ''}${netRewardPct.toFixed(1)}%`;
+        $('out-card-final').textContent = `NT$ ${fmtInt(cardFinal)}`;
+        $('out-card-detail').textContent = `匯率 ${cardRate}｜手續費 ${safeFee}%｜回饋 ${safeReward}%`;
+        $('out-cash-final').textContent = `NT$ ${fmtInt(cashFinal)}`;
+        $('out-cash-detail').textContent = `換匯成本匯率 ${cashRate}`;
+
+        $('out-card-base').textContent = `NT$ ${fmtInt(cardBase)}`;
+        $('out-card-fee').textContent = `+NT$ ${fmtInt(cardFee)}`;
+        $('out-card-reward').textContent = `-NT$ ${fmtInt(cardReward)}`;
+        $('out-dcc-note').textContent = `若誤選台幣結帳（DCC 動態貨幣轉換，常見匯差加價約 4%），這筆消費大約會多白白損失 NT$ ${fmtInt(dccLoss)} 元。`;
+
+        if (Math.abs(diff) < 1) {
+          $('out-verdict-title').textContent = '刷卡與付現幾乎一樣划算';
+          $('out-verdict-sub').textContent = '兩者實付台幣差距不到 1 元，依現場方便選擇即可。';
+        } else if (diff > 0) {
+          $('out-verdict-title').textContent = `刷卡比較省！省 NT$ ${fmtInt(diff)}`;
+          $('out-verdict-sub').textContent = `選「當地貨幣」刷卡比付現鈔便宜約 ${((diff / cashFinal) * 100).toFixed(2)}%。`;
+        } else {
+          $('out-verdict-title').textContent = `付現鈔比較省！省 NT$ ${fmtInt(Math.abs(diff))}`;
+          $('out-verdict-sub').textContent = `你手上的現鈔匯率很甜，付現比刷卡便宜約 ${((Math.abs(diff) / cardFinal) * 100).toFixed(2)}%。`;
+        }
+      }
+
+      function renderTax() {
+        const amt = parseFloat($('tax-amount').value);
+        const feePct = parseFloat($('tax-fee-pct').value);
+        const jpyRate = parseFloat($('tax-jpy-rate').value);
+
+        if (!Number.isFinite(amt) || amt <= 0 || !Number.isFinite(jpyRate) || jpyRate <= 0) {
+          $('out-tax-final-jpy').textContent = '--';
+          $('out-tax-final-twd').textContent = '請輸入有效金額';
+          return;
+        }
+
+        const rateDecimal = state.taxRate / 100;
+        const safeFeePct = Number.isFinite(feePct) && feePct >= 0 ? feePct : 0;
+
+        let exclAmt, inclAmt;
+        if (state.taxPriceMode === 'incl') {
+          inclAmt = amt;
+          exclAmt = Math.round(amt / (1 + rateDecimal));
+        } else {
+          exclAmt = amt;
+          inclAmt = Math.round(amt * (1 + rateDecimal));
+        }
+
+        const origTax = inclAmt - exclAmt;
+        const meetsThreshold = exclAmt >= 5000;
+        const refundFee = meetsThreshold ? Math.round(inclAmt * (safeFeePct / 100)) : 0;
+        const netSaved = meetsThreshold ? Math.max(0, origTax - refundFee) : 0;
+        const finalJpy = inclAmt - netSaved;
+
+        $('out-tax-final-jpy').textContent = fmtInt(finalJpy);
+        $('out-tax-final-twd').textContent = `約折合台幣 NT$ ${fmtInt(finalJpy * jpyRate)}`;
+        $('out-tax-saved-jpy').textContent = `${fmtInt(netSaved)} 円`;
+        $('out-tax-saved-twd').textContent = `約省 NT$ ${fmtInt(netSaved * jpyRate)}`;
+
+        $('out-tax-excl').textContent = `${fmtInt(exclAmt)} 円`;
+        $('out-tax-orig').textContent = `${fmtInt(origTax)} 円`;
+        $('out-tax-fee-jpy').textContent = `${fmtInt(refundFee)} 円`;
+
+        const banner = $('tax-threshold-banner');
+        if (meetsThreshold) {
+          const effDiscount = ((netSaved / inclAmt) * 100).toFixed(2);
+          banner.className = 'rounded-xl px-4 py-3 text-xs sm:text-sm font-medium bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 tabular-nums';
+          banner.textContent = `已達日本免稅門檻（未稅滿 5,000 日圓）！實際折扣約 ${effDiscount}% OFF。`;
+        } else {
+          const needExcl = 5000 - exclAmt;
+          const needIncl = Math.ceil(needExcl * (1 + rateDecimal));
+          banner.className = 'rounded-xl px-4 py-3 text-xs sm:text-sm font-medium bg-rose-500/20 border border-rose-400/40 text-rose-200 tabular-nums';
+          banner.textContent = `尚未達免稅門檻！還差未稅 ${fmtInt(needExcl)} 日圓（約含稅 ${fmtInt(needIncl)} 日圓）才能辦理退稅。`;
+        }
+      }
+
+      // Tabs
+      function setTab(tab) {
+        state.activeTab = tab;
+        const isPay = tab === 'pay';
+        $('panel-pay').classList.toggle('hidden', !isPay);
+        $('panel-tax').classList.toggle('hidden', isPay);
+        $('tab-btn-pay').setAttribute('aria-selected', String(isPay));
+        $('tab-btn-tax').setAttribute('aria-selected', String(!isPay));
+        $('tab-btn-pay').className = isPay
+          ? 'py-2.5 px-3 rounded-lg text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm'
+          : 'py-2.5 px-3 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
+        $('tab-btn-tax').className = !isPay
+          ? 'py-2.5 px-3 rounded-lg text-sm font-semibold transition-all bg-white text-slate-900 shadow-sm'
+          : 'py-2.5 px-3 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
+      }
+      $('tab-btn-pay').addEventListener('click', () => setTab('pay'));
+      $('tab-btn-tax').addEventListener('click', () => setTab('tax'));
+
+      // Currency switch
+      document.querySelectorAll('.curr-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.currency = btn.dataset.currency;
+          const cfg = CURRENCIES[state.currency];
+          document.querySelectorAll('.curr-btn').forEach((b) => {
+            const active = b.dataset.currency === state.currency;
+            b.className = active
+              ? 'curr-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-sky-600 text-white border-sky-600'
+              : 'curr-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50';
+          });
+          $('lbl-curr-code').textContent = state.currency;
+          $('pay-amount').value = cfg.defaultAmt;
+          $('pay-card-rate').value = cfg.cardRate;
+          $('pay-cash-rate').value = cfg.cashRate;
+          renderAmountPresets();
+          renderPay();
+        });
+      });
+
+      // Reward presets
+      document.querySelectorAll('.reward-preset').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          $('pay-reward').value = btn.dataset.reward;
+          renderPay();
+        });
+      });
+
+      ['pay-amount', 'pay-card-rate', 'pay-cash-rate', 'pay-reward', 'pay-fx-fee'].forEach((id) => {
+        $(id).addEventListener('input', () => {
+          if (id === 'pay-card-rate' && state.currency === 'JPY') {
+            $('tax-jpy-rate').value = $('pay-card-rate').value;
+            renderTax();
+          }
+          renderPay();
+        });
+      });
+
+      // Tax-Free controls
+      document.querySelectorAll('.tax-mode-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.taxPriceMode = btn.dataset.priceMode;
+          document.querySelectorAll('.tax-mode-btn').forEach((b) => {
+            const active = b.dataset.priceMode === state.taxPriceMode;
+            b.className = active
+              ? 'tax-mode-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-sky-600 text-white border-sky-600'
+              : 'tax-mode-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50';
+          });
+          renderTax();
+        });
+      });
+
+      document.querySelectorAll('.tax-rate-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.taxRate = parseInt(btn.dataset.taxRate, 10);
+          document.querySelectorAll('.tax-rate-btn').forEach((b) => {
+            const active = parseInt(b.dataset.taxRate, 10) === state.taxRate;
+            b.className = active
+              ? 'tax-rate-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-slate-900 text-white border-slate-900'
+              : 'tax-rate-btn py-2 px-2 rounded-lg text-xs font-semibold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50';
+          });
+          renderTax();
+        });
+      });
+
+      document.querySelectorAll('.tax-amt-preset').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          $('tax-amount').value = btn.dataset.taxAmt;
+          renderTax();
+        });
+      });
+
+      document.querySelectorAll('.tax-fee-preset').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          $('tax-fee-pct').value = btn.dataset.taxFee;
+          renderTax();
+        });
+      });
+
+      ['tax-amount', 'tax-fee-pct', 'tax-jpy-rate'].forEach((id) => {
+        $(id).addEventListener('input', renderTax);
+      });
+
+      // Copy Summary
+      $('btn-copy-summary').addEventListener('click', () => {
+        let text = '';
+        if (state.activeTab === 'pay') {
+          const amt = $('pay-amount').value;
+          const verdict = $('out-verdict-title').textContent;
+          const cardF = $('out-card-final').textContent;
+          const cashF = $('out-cash-final').textContent;
+          text = `【日韓刷卡 vs. 換現鈔試算】消費 ${amt} ${state.currency}｜${verdict}（刷卡實付 ${cardF}／付現 ${cashF}）`;
+        } else {
+          const amt = $('tax-amount').value;
+          const finalJ = $('out-tax-final-jpy').textContent;
+          const savedJ = $('out-tax-saved-jpy').textContent;
+          text = `【日本退稅試算】原價 ${amt} 円｜退稅後實付 ${finalJ} 円（實際省下 ${savedJ}）`;
+        }
+
+        const fallbackCopy = (str) => {
+          const ta = document.createElement('textarea');
+          ta.value = str;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try {
+            document.execCommand('copy');
+            showToast('已複製試算結果，可直接貼到 LINE！');
+          } catch (e) {
+            showToast('複製失敗，請手動選取文字複製。');
+          }
+          document.body.removeChild(ta);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text)
+            .then(() => showToast('已複製試算結果，可直接貼到 LINE！'))
+            .catch(() => fallbackCopy(text));
+        } else {
+          fallbackCopy(text);
+        }
+      });
+
+      // Init
+      renderAmountPresets();
+      renderPay();
+      renderTax();
+    })();
+  </script>
+</body>
+</html>
