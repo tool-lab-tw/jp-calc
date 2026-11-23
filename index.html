@@ -68,13 +68,18 @@
           <p class="text-xs text-slate-500 hidden sm:block">海外手續費、信用卡回饋對決與日韓免稅退稅一秒算</p>
         </div>
       </div>
-      <button id="btn-copy-summary" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shrink-0">
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="https://tool-lab-tw.github.io/" class="inline-flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+          <span>← 工具總覽</span>
+        </a>
+        <button id="btn-copy-summary" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shrink-0">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
           <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
         </svg>
         <span>複製結果</span>
-      </button>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -531,9 +536,12 @@
 
   <footer class="border-t border-slate-200 bg-white mt-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-slate-400 space-y-2">
-      <p class="text-slate-500">
-        更多免費實用工具：
-        <a href="https://stock-lab-tw.github.io/tw-stock-calc/" target="_blank" rel="noopener noreferrer" class="text-slate-700 font-medium underline underline-offset-2 hover:text-slate-900">台股損益平衡＆融資斷頭價計算機</a>
+      <p class="text-slate-500 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+        <a href="https://tool-lab-tw.github.io/" class="text-slate-700 font-semibold underline underline-offset-2 hover:text-slate-900">實用工具實驗室首頁</a>
+        <span aria-hidden="true">｜</span>
+        <a href="https://tool-lab-tw.github.io/fx-avg/" class="text-slate-600 hover:text-slate-900 underline underline-offset-2">外幣分批換匯計算機</a>
+        <span aria-hidden="true">｜</span>
+        <a href="https://stock-lab-tw.github.io/tw-stock-calc/" class="text-slate-600 hover:text-slate-900 underline underline-offset-2">台股損益＆融資斷頭試算器</a>
       </p>
       <p>免責聲明：本試算工具僅供出國消費與退稅估算參考，實際請款匯率、信用卡回饋上限與各店退稅規定請依發卡銀行與店家公告為準。</p>
     </div>
