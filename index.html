@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>日韓旅遊刷卡 vs. 換現鈔實省計算機（含日本退稅試算）｜免費工具</title>
-  <meta name="description" content="出國去日本、韓國刷卡還是付現比較划算？即時試算海外 1.5% 手續費、信用卡回饋與現金換匯價差，內建日本免稅 10% 退稅與百貨手續費計算機。" />
+  <title>日韓旅遊刷卡 vs. 換現鈔實省計算機（含日韓退稅試算）｜免費工具</title>
+  <meta name="description" content="出國去日本、韓國刷卡還是付現比較划算？即時試算海外 1.5% 手續費、信用卡回饋與現金換匯價差，內建日本 5,000 日圓免稅與韓國 15,000 韓元退稅試算器。" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230284c7'/%3E%3Cpath d='M18 35l28-13-7 25-7-8-14-4z' fill='none' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-  <meta property="og:title" content="日韓旅遊刷卡 vs. 換現鈔實省計算機（含日本退稅試算）" />
-  <meta property="og:description" content="輸入消費金額、信用卡回饋與手上換匯匯率，1 秒算出刷卡還是付現比較省，附日本退稅門檻與百貨手續費試算。" />
+  <meta property="og:title" content="日韓旅遊刷卡 vs. 換現鈔實省計算機（含日韓退稅試算）" />
+  <meta property="og:description" content="輸入消費金額、信用卡回饋與手上換匯匯率，1 秒算出刷卡還是付現比較省，附日本與韓國免稅退稅門檻即時試算。" />
   <meta property="og:type" content="website" />
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,7 +44,7 @@
         </div>
         <div class="min-w-0">
           <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 truncate">日韓旅遊刷卡 vs. 換現鈔計算機</h1>
-          <p class="text-xs text-slate-500 hidden sm:block">海外手續費、信用卡回饋對決與日本免稅退稅一秒算</p>
+          <p class="text-xs text-slate-500 hidden sm:block">海外手續費、信用卡回饋對決與日韓免稅退稅一秒算</p>
         </div>
       </div>
       <button id="btn-copy-summary" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shrink-0">
@@ -67,7 +67,7 @@
       </button>
       <button id="tab-btn-tax" type="button" role="tab" aria-selected="false" aria-controls="panel-tax"
         class="py-2.5 px-3 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
-        日本免稅退稅試算
+        日韓免稅退稅試算
       </button>
     </div>
 
@@ -198,11 +198,25 @@
       </div>
     </section>
 
-    <!-- PANEL 2: Japan Tax-Free Calculator -->
+    <!-- PANEL 2: Japan & Korea Tax-Free Calculator -->
     <section id="panel-tax" role="tabpanel" aria-labelledby="tab-btn-tax" class="hidden space-y-6">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        <!-- Left Inputs -->
+      <!-- Country Switcher -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-2 shadow-sm grid grid-cols-2 gap-2">
+        <button id="tax-country-jp" type="button" data-tax-country="JP"
+          class="tax-country-btn py-2.5 px-3 rounded-xl text-sm font-bold transition-all bg-sky-600 text-white shadow-sm">
+          日本免稅退稅（JPY）
+        </button>
+        <button id="tax-country-kr" type="button" data-tax-country="KR"
+          class="tax-country-btn py-2.5 px-3 rounded-xl text-sm font-bold transition-all bg-slate-50 text-slate-600 hover:bg-slate-100">
+          韓國退稅試算（KRW）
+        </button>
+      </div>
+
+      <!-- SUB-PANEL 2A: Japan Tax-Free -->
+      <div id="subpanel-tax-jp" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Inputs (JP) -->
         <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-5">
           <div>
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">輸入金額類型</label>
@@ -262,12 +276,12 @@
           </div>
         </div>
 
-        <!-- Right Tax-Free Results -->
+        <!-- Right Results (JP) -->
         <div class="lg:col-span-7 space-y-4">
           <div class="bg-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
             <div class="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p class="text-xs font-medium text-slate-400">免稅退稅後實際支付</p>
+                <p class="text-xs font-medium text-slate-400">日本免稅退稅後實際支付</p>
                 <div class="flex items-baseline gap-2 mt-1">
                   <span id="out-tax-final-jpy" class="text-3xl sm:text-4xl font-bold tracking-tight tabular-nums">--</span>
                   <span class="text-sm text-slate-300">日圓</span>
@@ -302,6 +316,88 @@
           </div>
         </div>
       </div>
+
+      <!-- SUB-PANEL 2B: Korea Tax Refund -->
+      <div id="subpanel-tax-kr" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Inputs (KR) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-5">
+          <div>
+            <label for="kr-tax-amount" class="block text-sm font-medium text-slate-700 mb-1.5">單筆含稅消費金額 (韓元 KRW)</label>
+            <input id="kr-tax-amount" type="number" step="any" min="1" value="100000"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-base font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+            <div class="grid grid-cols-4 gap-1.5 mt-2">
+              <button type="button" data-kr-amt="15000" class="kr-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">15,000</button>
+              <button type="button" data-kr-amt="50000" class="kr-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">50,000</button>
+              <button type="button" data-kr-amt="100000" class="kr-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">100,000</button>
+              <button type="button" data-kr-amt="300000" class="kr-amt-preset py-1.5 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700 tabular-nums">300,000</button>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1.5">韓國退稅門檻為單筆含稅滿 15,000 韓元（不同筆不可累計）。</p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="kr-refund-pct" class="text-sm font-medium text-slate-700">預估實退比例 (%)</label>
+              <span class="text-xs text-slate-400">VAT 10% 扣機構手續費後約 5%～8%</span>
+            </div>
+            <div class="flex gap-2">
+              <input id="kr-refund-pct" type="number" step="0.5" min="1" max="10" value="6.5"
+                class="w-20 px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+              <div class="flex-1 grid grid-cols-3 gap-1.5">
+                <button type="button" data-kr-pct="5" class="kr-pct-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">5% 小額</button>
+                <button type="button" data-kr-pct="6.5" class="kr-pct-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">6.5% 一般</button>
+                <button type="button" data-kr-pct="7.5" class="kr-pct-preset py-2 rounded-lg text-xs font-medium border border-slate-200 hover:bg-slate-100 text-slate-700">7.5% 大額</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="kr-rate" class="block text-xs font-medium text-slate-600 mb-1">韓元換算台幣參考匯率</label>
+            <input id="kr-rate" type="number" step="0.0005" min="0.001" value="0.0235"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-semibold tabular-nums focus:outline-none focus:ring-2 focus:ring-sky-600" />
+          </div>
+        </div>
+
+        <!-- Right Results (KR) -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="bg-slate-900 text-white rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-medium text-slate-400">韓國退稅後預估實際支付</p>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span id="out-kr-final" class="text-3xl sm:text-4xl font-bold tracking-tight tabular-nums">--</span>
+                  <span class="text-sm text-slate-300">韓元</span>
+                </div>
+                <p id="out-kr-final-twd" class="text-sm text-sky-300 font-semibold mt-1 tabular-nums">約折合台幣 NT$ --</p>
+              </div>
+              <div class="bg-emerald-500/15 border border-emerald-400/30 rounded-xl px-4 py-3 text-right">
+                <p class="text-[11px] text-emerald-200">預估退稅金額</p>
+                <p id="out-kr-saved" class="text-xl font-bold tabular-nums text-emerald-300 mt-0.5">-- 韓元</p>
+                <p id="out-kr-saved-twd" class="text-[11px] text-emerald-200/80 tabular-nums mt-0.5">約省 NT$ --</p>
+              </div>
+            </div>
+
+            <div id="kr-threshold-banner" class="rounded-xl px-4 py-3 text-xs sm:text-sm font-medium bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 tabular-nums">
+              已達門檻！支援「現場即時退稅」（單筆未滿 100 萬韓元）。
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">建議辦理方式</p>
+              <p id="out-kr-method" class="text-sm font-bold text-slate-900 mt-1">--</p>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">原含 10% 附加稅</p>
+              <p id="out-kr-vat" class="text-base font-bold text-slate-900 tabular-nums mt-1">--</p>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 p-3.5">
+              <p class="text-xs text-slate-500">估計退稅機構手續費</p>
+              <p id="out-kr-agency-fee" class="text-base font-bold text-rose-600 tabular-nums mt-1">--</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- SEO-Friendly FAQ -->
@@ -324,6 +420,15 @@
           </summary>
           <p class="text-slate-600 mt-2 leading-relaxed">
             日本免稅規定為同一天、同一間商店消費滿 <strong>未稅 5,000 日圓以上</strong>（10% 稅率商品對應含稅 5,500 日圓；8% 食品對應含稅 5,400 日圓）。藥妝店多數免收退稅手續費，但大型百貨公司通常會收取約 <strong>1.55%</strong> 的退稅服務費。
+          </p>
+        </details>
+        <details class="py-3 group">
+          <summary class="font-semibold text-slate-800 cursor-pointer list-none flex items-center justify-between">
+            <span>韓國退稅門檻與「現場即時退稅」上限是多少？</span>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
+          </summary>
+          <p class="text-slate-600 mt-2 leading-relaxed">
+            在貼有 Tax Free／Tax Refund 標示的韓國店家，<strong>單筆消費滿 15,000 韓元</strong>即可退稅（韓國附加稅 VAT 為 10%，扣除退稅公司級距手續費後實際退稅約 <strong>5%～8%</strong>）。若店家支援<strong>現場即時退稅</strong>，單筆未滿 <strong>100 萬韓元</strong>（單趟旅程累計上限 500 萬韓元）出示護照即可現場扣稅；超過 100 萬韓元則需透過市區或機場退稅辦理（單趟累計上限 600 萬韓元）。
           </p>
         </details>
         <details class="py-3 group">
@@ -363,6 +468,7 @@
       const state = {
         activeTab: 'pay',
         currency: 'JPY',
+        taxCountry: 'JP',     // 'JP' | 'KR'
         taxPriceMode: 'incl', // 'incl' | 'excl'
         taxRate: 10,          // 10 | 8
       };
@@ -501,6 +607,48 @@
         }
       }
 
+      function renderKrTax() {
+        const amt = parseFloat($('kr-tax-amount').value);
+        const refundPct = parseFloat($('kr-refund-pct').value);
+        const krRate = parseFloat($('kr-rate').value);
+
+        if (!Number.isFinite(amt) || amt <= 0 || !Number.isFinite(krRate) || krRate <= 0) {
+          $('out-kr-final').textContent = '--';
+          $('out-kr-final-twd').textContent = '請輸入有效金額';
+          return;
+        }
+
+        const safePct = Number.isFinite(refundPct) && refundPct >= 0 ? Math.min(10, refundPct) : 6.5;
+        const origVat = Math.round(amt - amt / 1.1);
+        const meetsMin = amt >= 15000;
+        const estSaved = meetsMin ? Math.min(origVat, Math.round(amt * (safePct / 100))) : 0;
+        const agencyFee = meetsMin ? Math.max(0, origVat - estSaved) : 0;
+        const finalKrw = amt - estSaved;
+
+        $('out-kr-final').textContent = fmtInt(finalKrw);
+        $('out-kr-final-twd').textContent = `約折合台幣 NT$ ${fmtInt(finalKrw * krRate)}`;
+        $('out-kr-saved').textContent = `${fmtInt(estSaved)} 韓元`;
+        $('out-kr-saved-twd').textContent = `約省 NT$ ${fmtInt(estSaved * krRate)}`;
+        $('out-kr-vat').textContent = `${fmtInt(origVat)} 韓元`;
+        $('out-kr-agency-fee').textContent = `${fmtInt(agencyFee)} 韓元`;
+
+        const banner = $('kr-threshold-banner');
+        if (!meetsMin) {
+          const need = Math.ceil(15000 - amt);
+          $('out-kr-method').textContent = '未達門檻';
+          banner.className = 'rounded-xl px-4 py-3 text-xs sm:text-sm font-medium bg-rose-500/20 border border-rose-400/40 text-rose-200 tabular-nums';
+          banner.textContent = `尚未達韓國退稅門檻！單筆還差 ${fmtInt(need)} 韓元（需滿 15,000 韓元）。`;
+        } else if (amt < 1000000) {
+          $('out-kr-method').textContent = '現場即時退稅／機場';
+          banner.className = 'rounded-xl px-4 py-3 text-xs sm:text-sm font-medium bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 tabular-nums';
+          banner.textContent = `已達門檻！單筆未滿 100 萬韓元，支援「現場即時退稅」（單趟累計上限 500 萬韓元）。`;
+        } else {
+          $('out-kr-method').textContent = '市區／機場退稅';
+          banner.className = 'rounded-xl px-4 py-3 text-xs sm:text-sm font-medium bg-amber-500/20 border border-amber-400/40 text-amber-200 tabular-nums';
+          banner.textContent = `單筆已滿 100 萬韓元，超過現場即時退稅上限，請持退稅單改走「市區或機場退稅」（單趟上限 600 萬韓元）。`;
+        }
+      }
+
       // Tabs
       function setTab(tab) {
         state.activeTab = tab;
@@ -552,6 +700,9 @@
           if (id === 'pay-card-rate' && state.currency === 'JPY') {
             $('tax-jpy-rate').value = $('pay-card-rate').value;
             renderTax();
+          } else if (id === 'pay-card-rate' && state.currency === 'KRW') {
+            $('kr-rate').value = $('pay-card-rate').value;
+            renderKrTax();
           }
           renderPay();
         });
@@ -602,6 +753,41 @@
         $(id).addEventListener('input', renderTax);
       });
 
+      // Country Switcher in Tax-Free Tab
+      document.querySelectorAll('.tax-country-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.taxCountry = btn.dataset.taxCountry;
+          const isJP = state.taxCountry === 'JP';
+          $('subpanel-tax-jp').classList.toggle('hidden', !isJP);
+          $('subpanel-tax-kr').classList.toggle('hidden', isJP);
+          document.querySelectorAll('.tax-country-btn').forEach((b) => {
+            const active = b.dataset.taxCountry === state.taxCountry;
+            b.className = active
+              ? 'tax-country-btn py-2.5 px-3 rounded-xl text-sm font-bold transition-all bg-sky-600 text-white shadow-sm'
+              : 'tax-country-btn py-2.5 px-3 rounded-xl text-sm font-bold transition-all bg-slate-50 text-slate-600 hover:bg-slate-100';
+          });
+        });
+      });
+
+      // Korea Tax-Free controls
+      document.querySelectorAll('.kr-amt-preset').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          $('kr-tax-amount').value = btn.dataset.krAmt;
+          renderKrTax();
+        });
+      });
+
+      document.querySelectorAll('.kr-pct-preset').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          $('kr-refund-pct').value = btn.dataset.krPct;
+          renderKrTax();
+        });
+      });
+
+      ['kr-tax-amount', 'kr-refund-pct', 'kr-rate'].forEach((id) => {
+        $(id).addEventListener('input', renderKrTax);
+      });
+
       // Copy Summary
       $('btn-copy-summary').addEventListener('click', () => {
         let text = '';
@@ -611,11 +797,16 @@
           const cardF = $('out-card-final').textContent;
           const cashF = $('out-cash-final').textContent;
           text = `【日韓刷卡 vs. 換現鈔試算】消費 ${amt} ${state.currency}｜${verdict}（刷卡實付 ${cardF}／付現 ${cashF}）`;
-        } else {
+        } else if (state.taxCountry === 'JP') {
           const amt = $('tax-amount').value;
           const finalJ = $('out-tax-final-jpy').textContent;
           const savedJ = $('out-tax-saved-jpy').textContent;
           text = `【日本退稅試算】原價 ${amt} 円｜退稅後實付 ${finalJ} 円（實際省下 ${savedJ}）`;
+        } else {
+          const amt = $('kr-tax-amount').value;
+          const finalK = $('out-kr-final').textContent;
+          const savedK = $('out-kr-saved').textContent;
+          text = `【韓國退稅試算】原價 ${amt} 韓元｜退稅後預估實付 ${finalK} 韓元（預估省下 ${savedK}）`;
         }
 
         const fallbackCopy = (str) => {
@@ -647,6 +838,7 @@
       renderAmountPresets();
       renderPay();
       renderTax();
+      renderKrTax();
     })();
   </script>
 </body>
