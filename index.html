@@ -9,6 +9,27 @@
   <meta property="og:title" content="日韓旅遊刷卡 vs. 換現鈔實省計算機（含日韓退稅試算）" />
   <meta property="og:description" content="輸入消費金額、信用卡回饋與手上換匯匯率，1 秒算出刷卡還是付現比較省，附日本與韓國免稅退稅門檻即時試算。" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="實用工具實驗室" />
+  <meta property="og:url" content="https://tool-lab-tw.github.io/jp-calc/" />
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "實用工具實驗室",
+      "url": "https://tool-lab-tw.github.io/jp-calc/"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "日韓旅遊刷卡 vs. 換現鈔實省計算機（含日韓退稅試算）",
+      "url": "https://tool-lab-tw.github.io/jp-calc/",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" }
+    }
+  ]
+  </script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -439,6 +460,31 @@
       </div>
     </section>
 
+    <!-- Quick SEO Reference Table -->
+    <section class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+      <div class="px-5 py-4 border-b border-slate-100">
+        <h2 class="text-sm sm:text-base font-bold text-slate-900">日本 vs. 韓國免稅退稅規定速查表</h2>
+        <p class="text-xs text-slate-500 mt-0.5">出發購物前快速確認免稅門檻、手續費與上限</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs sm:text-sm text-left">
+          <thead class="bg-slate-50 text-slate-500 border-b border-slate-100">
+            <tr>
+              <th class="py-2.5 px-4 font-semibold">項目</th>
+              <th class="py-2.5 px-4 font-semibold">日本免稅（JPY）</th>
+              <th class="py-2.5 px-4 font-semibold">韓國退稅（KRW）</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <tr><td class="py-2.5 px-4 font-semibold text-slate-900">單筆最低門檻</td><td class="py-2.5 px-4">未稅 5,000 日圓（含稅約 5,500）</td><td class="py-2.5 px-4">含稅 15,000 韓元</td></tr>
+            <tr><td class="py-2.5 px-4 font-semibold text-slate-900">原始稅率</td><td class="py-2.5 px-4">一般 10%／食品 8%</td><td class="py-2.5 px-4">附加稅（VAT）10%</td></tr>
+            <tr><td class="py-2.5 px-4 font-semibold text-slate-900">實際退稅／手續費</td><td class="py-2.5 px-4">藥妝店多免手續費；百貨約收 1.55%</td><td class="py-2.5 px-4">依退稅機構級距，實退約 5%～8%</td></tr>
+            <tr><td class="py-2.5 px-4 font-semibold text-slate-900">現場即時退稅上限</td><td class="py-2.5 px-4">消耗品單日同店上限 50 萬日圓</td><td class="py-2.5 px-4">單筆未滿 100 萬韓元（單趟上限 500 萬）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- SEO-Friendly FAQ -->
     <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
       <h2 class="text-base font-bold text-slate-900">日韓旅遊刷卡與退稅常見問題</h2>
@@ -484,7 +530,11 @@
   </main>
 
   <footer class="border-t border-slate-200 bg-white mt-8">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-slate-400">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-slate-400 space-y-2">
+      <p class="text-slate-500">
+        更多免費實用工具：
+        <a href="https://stock-lab-tw.github.io/tw-stock-calc/" target="_blank" rel="noopener noreferrer" class="text-slate-700 font-medium underline underline-offset-2 hover:text-slate-900">台股損益平衡＆融資斷頭價計算機</a>
+      </p>
       <p>免責聲明：本試算工具僅供出國消費與退稅估算參考，實際請款匯率、信用卡回饋上限與各店退稅規定請依發卡銀行與店家公告為準。</p>
     </div>
   </footer>
