@@ -50,6 +50,7 @@
     .tabular-nums {
       font-variant-numeric: tabular-nums;
     }
+    body { padding-bottom: 64px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
@@ -212,6 +213,15 @@
             </div>
           </div>
 
+          <!-- Contextual Action Strip -->
+          <div class="rounded-xl border border-sky-200 bg-gradient-to-r from-sky-50 to-indigo-50 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div class="text-xs sm:text-sm font-semibold text-slate-800">✈️ 出發日韓前順手把網卡、交通與飯店省起來：</div>
+            <div class="flex flex-wrap gap-2 shrink-0">
+              <a href="https://adcenter.conn.tw/3aVfu" target="_blank" rel="noopener noreferrer sponsored" class="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold transition">Klook 日韓票券 →</a>
+              <a href="https://shoppingfun.co/3aVfo" target="_blank" rel="noopener noreferrer sponsored" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition">eSIM 網卡 →</a>
+              <a href="https://twshop4coupon.com/track/clicks/8682/c627c2bc9b0724ddfc8cec23d62e9e44256848c063b2a0f90f66ba0771401de3c021e7e5593c99616c" target="_blank" rel="noopener noreferrer sponsored" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition">Agoda 訂房 →</a>
+            </div>
+          </div>
           <!-- DCC Trap Warning Box -->
           <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
             <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm">!</div>
@@ -938,6 +948,22 @@
       renderKrTax();
     })();
   </script>
+
+  <!-- Dismissible Sticky Bottom Bar -->
+  <div id="sticky-promo-bar" class="fixed bottom-0 inset-x-0 z-50 bg-slate-900/95 backdrop-blur border-t border-slate-700/80 text-white px-3 py-2.5 shadow-lg">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-2.5">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/15 text-amber-300">日韓行前必備</span>
+        <p class="text-xs sm:text-sm font-medium truncate text-slate-100">機場快線、環球影城、迪士尼與 eSIM 網卡線上預訂現省旅費</p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="https://adcenter.conn.tw/3aVfu" target="_blank" rel="noopener noreferrer sponsored" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-amber-400 hover:bg-amber-300 text-slate-950 whitespace-nowrap">看 Klook 優惠 →</a>
+        <button type="button" aria-label="關閉提示條" onclick="(function(){var el=document.getElementById('sticky-promo-bar');if(el)el.style.display='none';try{sessionStorage.setItem('hide_bar_travel','1');}catch(e){}})();" class="p-1 rounded-md text-slate-400 hover:text-white hover:bg-white/10 text-sm leading-none">✕</button>
+      </div>
+    </div>
+  </div>
+  <script>(function(){try{if(sessionStorage.getItem('hide_bar_travel')==='1'){var el=document.getElementById('sticky-promo-bar');if(el)el.style.display='none';}}catch(e){}})();</script>
+
   <script>var ConverlyCustomData = {channelId: null};</script>
   <script async defer src="https://cdn.adotone.com/production/adlinks/23c1396816138b5012317378ade8e49903ca174367b084371855b4712cd32d3b.js"></script>
 </body>
